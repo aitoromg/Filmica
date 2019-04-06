@@ -22,6 +22,20 @@ object ApiRoutes {
             .toString()
     }
 
+    fun trendingUrl(
+        language: String = "en-US",
+        page: Int = 1
+    ): String {
+        return getUriBuilder()
+            .appendPath("trending")
+            .appendPath("movie")
+            .appendPath("day")
+            .appendQueryParameter("language", language)
+            .appendQueryParameter("page", page.toString())
+            .build()
+            .toString()
+    }
+
     private fun getUriBuilder() =
         Uri.Builder()
             .scheme("https")

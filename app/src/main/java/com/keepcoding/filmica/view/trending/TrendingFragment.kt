@@ -1,4 +1,4 @@
-package com.keepcoding.filmica.view.films
+package com.keepcoding.filmica.view.trending
 
 import android.content.Context
 import android.os.Bundle
@@ -9,17 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.keepcoding.filmica.R
 import com.keepcoding.filmica.data.Film
-import com.keepcoding.filmica.data.DiscoverRepo
+import com.keepcoding.filmica.data.TrendingRepo
+import com.keepcoding.filmica.view.films.FilmsAdapter
 import com.keepcoding.filmica.view.util.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
 
-class FilmsFragment : Fragment() {
+class TrendingFragment : Fragment() {
 
     lateinit var listener: OnItemClickListener
 
     val list: RecyclerView by lazy {
-        val instance = view!!.findViewById<RecyclerView>(R.id.list_films)
+        val instance = view!!.findViewById<RecyclerView>(R.id.list_trending)
         instance.addItemDecoration(ItemOffsetDecoration(R.dimen.offset_grid))
         instance.setHasFixedSize(true)
         instance
@@ -42,7 +43,7 @@ class FilmsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_films, container, false)
+        return inflater.inflate(R.layout.fragment_trending, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class FilmsFragment : Fragment() {
     }
 
     fun reload() {
-        DiscoverRepo.discoverFilms(context!!,
+        TrendingRepo.trendingFilms(context!!,
             { films ->
                 progress?.visibility = View.INVISIBLE
                 layoutError?.visibility = View.INVISIBLE

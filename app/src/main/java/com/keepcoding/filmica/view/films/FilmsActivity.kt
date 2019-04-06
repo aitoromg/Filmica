@@ -6,16 +6,19 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.keepcoding.filmica.R
 import com.keepcoding.filmica.data.Film
+import com.keepcoding.filmica.view.trending.TrendingFragment
 import com.keepcoding.filmica.view.detail.DetailsActivity
 import com.keepcoding.filmica.view.detail.DetailsFragment
 import com.keepcoding.filmica.view.watchlist.WatchlistFragment
 import kotlinx.android.synthetic.main.activity_films.*
 
+const val TAG_TRENDING = "trending"
 const val TAG_FILMS = "films"
 const val TAG_WATCHLIST = "watchlist"
 
 class FilmsActivity : AppCompatActivity(), FilmsFragment.OnItemClickListener, DetailsFragment.OnFilmSavedListener {
 
+    private lateinit var trendingFragment: TrendingFragment
     private lateinit var filmsFragment: FilmsFragment
     private lateinit var watchlistFragment: WatchlistFragment
     private lateinit var activeFragment: Fragment
@@ -27,7 +30,7 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnItemClickListener, De
         if (savedInstanceState == null) {
             setupFragments()
         } else {
-            val activeTag = savedInstanceState.getString("active", TAG_FILMS)
+            val activeTag = savedInstanceState.getString("active", TAG_TRENDING)
             restoreFragments(activeTag)
         }
 
@@ -35,6 +38,7 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnItemClickListener, De
             val id = item.itemId
 
             when (id) {
+                R.id.action_trending -> showMainFragment(trendingFragment)
                 R.id.action_discover -> showMainFragment(filmsFragment)
                 R.id.action_watchlist -> showMainFragment(watchlistFragment)
             }
@@ -49,27 +53,33 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnItemClickListener, De
     }
 
     private fun setupFragments() {
+        trendingFragment = TrendingFragment()
         filmsFragment = FilmsFragment()
         watchlistFragment = WatchlistFragment()
 
         supportFragmentManager.beginTransaction()
+            .add(R.id.container_list, trendingFragment, TAG_TRENDING)
             .add(R.id.container_list, filmsFragment, TAG_FILMS)
             .add(R.id.container_list, watchlistFragment, TAG_WATCHLIST)
+            .hide(filmsFragment)
             .hide(watchlistFragment)
             .commit()
 
-        activeFragment = filmsFragment
+        activeFragment = trendingFragment
     }
 
     private fun restoreFragments(tag: String) {
+        trendingFragment = supportFragmentManager.findFragmentByTag(TAG_TRENDING) as TrendingFragment
         filmsFragment = supportFragmentManager.findFragmentByTag(TAG_FILMS) as FilmsFragment
         watchlistFragment = supportFragmentManager.findFragmentByTag(TAG_WATCHLIST) as WatchlistFragment
 
         activeFragment =
-                if (tag == TAG_WATCHLIST)
-                    watchlistFragment
-                else
+                if (tag == TAG_TRENDING)
+                    trendingFragment
+                else if (tag == TAG_FILMS)
                     filmsFragment
+                else
+                    watchlistFragment
     }
 
     override fun onItemClicked(film: Film) {
