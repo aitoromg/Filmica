@@ -10,6 +10,7 @@ import com.keepcoding.filmica.view.trending.TrendingFragment
 import com.keepcoding.filmica.view.search.SearchFragment
 import com.keepcoding.filmica.view.detail.DetailsActivity
 import com.keepcoding.filmica.view.detail.DetailsFragment
+import com.keepcoding.filmica.view.detail.DetailsPlaceholderFragment
 import com.keepcoding.filmica.view.watchlist.WatchlistFragment
 import com.keepcoding.filmica.view.util.ItemClickListener
 import kotlinx.android.synthetic.main.activity_films.*
@@ -74,6 +75,12 @@ class FilmsActivity : AppCompatActivity(), ItemClickListener, DetailsFragment.On
             .commit()
 
         activeFragment = trendingFragment
+
+        if (isTablet()) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.containerDetails, DetailsPlaceholderFragment())
+                .commit()
+        }
     }
 
     private fun restoreFragments(tag: String) {
@@ -108,6 +115,12 @@ class FilmsActivity : AppCompatActivity(), ItemClickListener, DetailsFragment.On
             .commit()
 
         activeFragment = fragment
+
+        if (isTablet()) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.containerDetails, DetailsPlaceholderFragment())
+                .commit()
+        }
     }
 
     fun showDetails(id: String) {
