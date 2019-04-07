@@ -117,6 +117,9 @@ class FilmsActivity : AppCompatActivity(), ItemClickListener, DetailsFragment.On
         activeFragment = fragment
 
         if (isTablet()) {
+            if(activeFragment === watchlistFragment){
+                watchlistFragment.loadWatchlist()
+            }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.containerDetails, DetailsPlaceholderFragment())
                 .commit()
