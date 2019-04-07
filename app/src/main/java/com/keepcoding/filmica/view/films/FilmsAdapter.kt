@@ -1,9 +1,13 @@
 package com.keepcoding.filmica.view.films
 
+import android.arch.paging.PagedListAdapter
 import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
+import android.support.v7.util.DiffUtil
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.keepcoding.filmica.R
 import com.keepcoding.filmica.data.Film
 import com.keepcoding.filmica.view.util.BaseFilmAdapter
@@ -13,11 +17,36 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_film.view.*
 
 class FilmsAdapter(clickListener: ((Film) -> Unit)? = null) :
-    BaseFilmAdapter<FilmsAdapter.FilmViewHolder>(
-        layoutItem = R.layout.item_film,
-        holderCreator = { view -> FilmViewHolder(view, clickListener) }
+    PagedListAdapter<Film, FilmsAdapter.FilmViewHolder>(
+        filmDiffCallback
     ) {
 
+    private val clickListener = clickListener
+
+    companion object {
+        val filmDiffCallback = object : DiffUtil.ItemCallback<Film>() {
+            override fun areContentsTheSame(p0: Film, p1: Film): Boolean {
+                return p0 == p1
+            }
+
+            override fun areItemsTheSame(p0: Film, p1: Film): Boolean {
+                return p0?.id == p1?.id
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(recyclerView: ViewGroup, viewType: Int): FilmViewHolder {
+        val itemView = LayoutInflater.from(recyclerView.context).inflate(R.layout.item_film, recyclerView, false)
+
+        return FilmViewHolder(itemView, clickListener)
+    }
+
+    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
+        val film = getItem(position)
+        film?.let {
+            holder.bindFilm(it)
+        }
+    }
 
     class FilmViewHolder(
         view: View,

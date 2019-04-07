@@ -6,15 +6,13 @@ import com.keepcoding.filmica.BuildConfig
 object ApiRoutes {
 
     fun discoverUrl(
-        language: String = "en-US",
-        sort: String = "popularity.desc",
         page: Int = 1
     ): String {
         return getUriBuilder()
             .appendPath("discover")
             .appendPath("movie")
-            .appendQueryParameter("language", language)
-            .appendQueryParameter("sort_by", sort)
+            .appendQueryParameter("language", "en-US")
+            .appendQueryParameter("sort_by", "popularity.desc")
             .appendQueryParameter("page", page.toString())
             .appendQueryParameter("include_adult", "false")
             .appendQueryParameter("include_video", "false")
@@ -23,14 +21,13 @@ object ApiRoutes {
     }
 
     fun trendingUrl(
-        language: String = "en-US",
         page: Int = 1
     ): String {
         return getUriBuilder()
             .appendPath("trending")
             .appendPath("movie")
             .appendPath("day")
-            .appendQueryParameter("language", language)
+            .appendQueryParameter("language", "en-US")
             .appendQueryParameter("page", page.toString())
             .appendQueryParameter("include_adult", "false")
             .appendQueryParameter("include_video", "false")
@@ -40,14 +37,13 @@ object ApiRoutes {
 
     fun searchUrl(
         query: String,
-        language: String = "en-US",
         page: Int = 1
     ): String {
         return getUriBuilder()
             .appendPath("search")
             .appendPath("movie")
             .appendQueryParameter("query", query)
-            .appendQueryParameter("language", language)
+            .appendQueryParameter("language", "en-US")
             .appendQueryParameter("page", page.toString())
             .appendQueryParameter("include_adult", "false")
             .appendQueryParameter("include_video", "false")

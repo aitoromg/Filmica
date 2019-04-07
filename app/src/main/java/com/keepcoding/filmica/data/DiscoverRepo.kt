@@ -12,29 +12,25 @@ object DiscoverRepo {
 
     fun discoverFilms(
         context: Context,
-        callbackSuccess: ((MutableList<Film>) -> Unit),
+        page: Int,
+        callbackSuccess: ((MutableList<Film>, Int) -> Unit),
         callbackError: ((VolleyError) -> Unit)
     ) {
-
-        if (films.isEmpty()) {
-            requestDiscoverFilms(callbackSuccess, callbackError, context)
-        } else {
-            callbackSuccess.invoke(films)
-        }
+        requestDiscoverFilms(callbackSuccess, callbackError, context, page)
     }
 
     private fun requestDiscoverFilms(
-        callbackSuccess: (MutableList<Film>) -> Unit,
+        callbackSuccess: (MutableList<Film>, Int) -> Unit,
         callbackError: (VolleyError) -> Unit,
-        context: Context
+        context: Context,
+        page: Int
     ) {
-        val url = ApiRoutes.discoverUrl()
+        val url = ApiRoutes.discoverUrl(page)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val newFilms = Film.parseFilms(response)
-                films.addAll(newFilms)
                 FilmsRepo.addNewFilm(newFilms)
-                callbackSuccess.invoke(films)
+                callbackSuccess.invoke(newFilms, response.getInt("total_pages"))
             },
             { error ->
                 callbackError.invoke(error)
