@@ -8,6 +8,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
+const val MAX_SEARCH_FILMS = 10
+
 @Entity
 data class Film(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
@@ -31,9 +33,12 @@ data class Film(
             val films = mutableListOf<Film>()
             val filmsArray = response.getJSONArray("results")
 
-            for (i in 0..(filmsArray.length() - 1)) {
-                val film = parseFilm(filmsArray.getJSONObject(i))
-                films.add(film)
+            if (filmsArray != null) {
+                val filmsArraySize = if (filmsArray.length() > MAX_SEARCH_FILMS) MAX_SEARCH_FILMS else filmsArray.length()
+                for (i in 0..(filmsArraySize - 1)) {
+                    val film = parseFilm(filmsArray.getJSONObject(i))
+                    films.add(film)
+                }
             }
 
             return films
@@ -60,7 +65,7 @@ data class Film(
                 genres.add(genre)
             }
 
-            return genres.reduce { acc, genre -> "$acc | $genre" }
+            return if (genres.size > 0) genres.reduce { acc, genre -> "$acc | $genre" } else ""
         }
     }
 }
