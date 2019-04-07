@@ -13,17 +13,17 @@ import com.keepcoding.filmica.view.util.SimpleTarget
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchAdapter(itemClickListener: ((Film) -> Unit)? = null) :
+class SearchAdapter(clickListener: ((Film) -> Unit)? = null) :
     BaseFilmAdapter<SearchAdapter.SearchViewHolder>(
         layoutItem = R.layout.item_search,
-        holderCreator = { view -> SearchViewHolder(view, itemClickListener) }
+        holderCreator = { view -> SearchViewHolder(view, clickListener) }
     ) {
 
 
     class SearchViewHolder(
         view: View,
-        listener: ((Film) -> Unit)? = null
-    ) : BaseFilmHolder(view, listener) {
+        clickListener: ((Film) -> Unit)? = null
+    ) : BaseFilmHolder(view, clickListener) {
 
         override fun bindFilm(film: Film) {
             super.bindFilm(film)

@@ -13,6 +13,7 @@ import com.keepcoding.filmica.R
 import com.keepcoding.filmica.data.Film
 import com.keepcoding.filmica.data.SearchRepo
 import com.keepcoding.filmica.view.util.ItemOffsetDecoration
+import com.keepcoding.filmica.view.util.ItemClickListener
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_error.*
 import kotlinx.android.synthetic.main.layout_noresults.*
@@ -22,7 +23,7 @@ const val MIN_SEARCH_QUERY = 3
 
 class SearchFragment : Fragment() {
 
-    lateinit var listener: OnItemClickListener
+    lateinit var listener: ItemClickListener
     private var searching: Boolean = false
 
     val list: RecyclerView by lazy {
@@ -43,7 +44,7 @@ class SearchFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if (context is OnItemClickListener) {
+        if (context is ItemClickListener) {
             listener = context
         }
     }
@@ -65,6 +66,9 @@ class SearchFragment : Fragment() {
                     if (query.length > MIN_SEARCH_QUERY) {
                         searching = false
                         progress.visibility = View.VISIBLE
+                        layoutError.visibility = View.INVISIBLE
+                        layoutNoResults.visibility = View.INVISIBLE
+                        list.visibility = View.INVISIBLE
                         search(query)
                     } else {
                         searching = true

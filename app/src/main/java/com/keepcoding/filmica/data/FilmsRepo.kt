@@ -58,6 +58,7 @@ object FilmsRepo {
             }
 
             val films: List<Film> = async.await()
+            addNewFilm(films)
             callbackSuccess.invoke(films)
         }
     }

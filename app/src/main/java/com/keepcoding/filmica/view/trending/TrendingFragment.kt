@@ -12,12 +12,13 @@ import com.keepcoding.filmica.data.Film
 import com.keepcoding.filmica.data.TrendingRepo
 import com.keepcoding.filmica.view.films.FilmsAdapter
 import com.keepcoding.filmica.view.util.ItemOffsetDecoration
+import com.keepcoding.filmica.view.util.ItemClickListener
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
 
 class TrendingFragment : Fragment() {
 
-    lateinit var listener: OnItemClickListener
+    lateinit var listener: ItemClickListener
 
     val list: RecyclerView by lazy {
         val instance = view!!.findViewById<RecyclerView>(R.id.list_trending)
@@ -37,7 +38,7 @@ class TrendingFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if (context is OnItemClickListener) {
+        if (context is ItemClickListener) {
             listener = context
         }
     }

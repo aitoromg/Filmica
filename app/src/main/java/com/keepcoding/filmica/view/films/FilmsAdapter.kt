@@ -12,17 +12,17 @@ import com.keepcoding.filmica.view.util.SimpleTarget
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_film.view.*
 
-class FilmsAdapter(itemClickListener: ((Film) -> Unit)? = null) :
+class FilmsAdapter(clickListener: ((Film) -> Unit)? = null) :
     BaseFilmAdapter<FilmsAdapter.FilmViewHolder>(
         layoutItem = R.layout.item_film,
-        holderCreator = { view -> FilmViewHolder(view, itemClickListener) }
+        holderCreator = { view -> FilmViewHolder(view, clickListener) }
     ) {
 
 
     class FilmViewHolder(
         view: View,
-        listener: ((Film) -> Unit)? = null
-    ) : BaseFilmHolder(view, listener) {
+        clickListener: ((Film) -> Unit)? = null
+    ) : BaseFilmHolder(view, clickListener) {
 
         override fun bindFilm(film: Film) {
             super.bindFilm(film)

@@ -11,6 +11,7 @@ import com.keepcoding.filmica.view.search.SearchFragment
 import com.keepcoding.filmica.view.detail.DetailsActivity
 import com.keepcoding.filmica.view.detail.DetailsFragment
 import com.keepcoding.filmica.view.watchlist.WatchlistFragment
+import com.keepcoding.filmica.view.util.ItemClickListener
 import kotlinx.android.synthetic.main.activity_films.*
 
 const val TAG_TRENDING = "trending"
@@ -18,7 +19,7 @@ const val TAG_FILMS = "films"
 const val TAG_SEARCH = "search"
 const val TAG_WATCHLIST = "watchlist"
 
-class FilmsActivity : AppCompatActivity(), FilmsFragment.OnItemClickListener, DetailsFragment.OnFilmSavedListener {
+class FilmsActivity : AppCompatActivity(), ItemClickListener, DetailsFragment.OnFilmSavedListener {
 
     private lateinit var trendingFragment: TrendingFragment
     private lateinit var filmsFragment: FilmsFragment
